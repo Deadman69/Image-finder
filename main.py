@@ -18,22 +18,23 @@ for filename in glob.iglob(imagesFolder + '**/**', recursive=True):
         objCreated = {'hashCalc': getRealHash(filename), 'filename': filename}
         listHashsImages.append(objCreated)
 
-print(listHashsImages)
-
 for filename in glob.iglob(imagesToCompareFolder + '**/**', recursive=True):
     if(not os.path.isdir(filename) and ('.png' in filename or '.PNG' in filename or '.jpg' in filename or '.JPG' in filename)):
         objCreated = {'hashCalc': getRealHash(filename), 'filename': filename}
         listHashsImagesCompare.append(objCreated)
 
-print(listHashsImagesCompare)
-
 print("====================================")
 print("Hash calc ended, start comparing...")
 print("====================================")
 
+matchFiles = 0
 for file in listHashsImagesCompare:
     for file2 in listHashsImages:
         if(file['hashCalc'] == file2['hashCalc']):
-            print("Same hash found for " + file['filename'] + "(" + file2["filename"] + ")")
+            matchFiles = matchFiles + 1
+            print("Same hash found for " + file['filename'] + " (" + file2["filename"] + ")")
 
-input("press a key to exit")
+if(matchFiles == 0):
+    print("We haven't found any files in folder '" + imagesToCompareFolder + "' matching elements in '" + imagesFolder + "'")
+
+input("\npress a key to exit")
